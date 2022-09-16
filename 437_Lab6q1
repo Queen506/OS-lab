@@ -1,0 +1,48 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int csum,msum;
+void *Sum(void *n);
+
+int main(int argc, char *argv[]){
+
+    int num;
+    pthread_t tid;
+    pthread_attr_t attr;
+    
+    printf("Enter Number :");
+    scanf("%d",&num); 
+
+    
+
+    pthread_attr_init(&attr);
+
+    pthread_create(&tid, &attr, Sum, (void *)&num);
+ 
+    pthread_join(tid,NULL);
+    
+    for(int i=0; i<=num; i++){
+        msum += i;
+    } 
+    printf("msum = %d\n",msum);
+    printf("different between csum and msum  = %d\n",csum-msum);
+
+    
+ 
+    return 0;
+
+}
+void *Sum(void *n){
+    int *num;
+    num = n;
+    
+    for(int i=0; i<=*num*2; i++){
+        csum += i;
+    } 
+    printf("csum = %d\n",csum);
+        
+        pthread_exit(0);
+        
+    
+}
